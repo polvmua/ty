@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-webhook
+  namespace: ${NS}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: test-webhook
+  template:
+    metadata:
+      labels:
+        app: test-webhook
+    spec:
+      containers:
+        - name: test-webhook
+          image: ${WEBHOOK_IMAGE}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: ${CONTAINER_PORT}
+          env:
+            - name: CPU_LIMIT
+              value: "2"
+            - name: CHECK_NAMESPACE
+              value: "true"
+          volumeMounts:
+            - name: ssl-certs
+              mountPath: "/data/ssl_certs"
+              readOnly: true
+            - name: ssl-keys
+              mountPath: "/data/ssl_keys"
+              readOnly: true
+      volumes:
+        - name: ssl-certs
+          configMap:
+            name: test-webhook-config
+            items:
+              - key: tls_cert
+                path: server-cert.pem
+        - name: ssl-keys
+          secret:
+            secretName: test-webhook-secret
+            items:
+              - key: tls_private_key
+                path: server-key.pem
