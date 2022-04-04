@@ -20,3 +20,4 @@ spec:
                 secretKeyRef:
                   key: "SERVICE_ACCOUNT_KEY"
                   name: "scale-job-secret"
+                  
