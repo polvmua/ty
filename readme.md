@@ -4,6 +4,7 @@ In case, when "some time of the year" means additional load in expected time per
 
 There is a cronjob for Kubernetes can be realised (hpa_up.yml, hpa_down.yml).
 The main action of it - ability to deploy additional pods with microservices in certain period of time and remove it when necessary (cron * * * )
+
 Also, when "some time of the year" is the peak time, classical approach with multimetric scaling (multimetric_hpa.yml) can be realized.
 
 * Create a flowchart to monitor 4-key metrics.
